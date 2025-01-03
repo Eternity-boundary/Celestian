@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QTimer>
-#include <windows.h> // 用于 Windows API
+#include <windows.h>
 
 #define _CELESTIAN_DISABLED_WARNINGS C26813 C26495
 
@@ -22,5 +22,3 @@ private:
 	QPushButton* button;
 	QTimer* timer;
 };
-
-HWND getWindowHandle();

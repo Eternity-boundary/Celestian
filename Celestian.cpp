@@ -1,45 +1,15 @@
 //Created by Eternity_boundary on Jan 3,2025
 #include "Celestian.h"
+#include "SelectWindowDialog.h"
 #include <Windows.h>
 #include <QDebug>
 #include <QTimer>
 #include <QPushButton>
 #include <TlHelp32.h>
-#pragma warning(disable:_STL_DISABLED_WARNINGS)
-#pragma warning(disable:_CELESTIAN_DISABLED_WARNINGS)
 
-HWND targetWindow = nullptr; // 全局变量保存窗口句柄
+// 全局变量（或改为 MainWindow 的成员变量）
+HWND targetWindow = nullptr;
 
-// 枚举顶层窗口的回调函数
-BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
-	wchar_t className[256];
-	wchar_t windowTitle[256];
-
-	// 获取窗口类名
-	GetClassName(hwnd, className, sizeof(className) / sizeof(wchar_t));
-
-	// 获取窗口标题
-	GetWindowText(hwnd, windowTitle, sizeof(windowTitle) / sizeof(wchar_t));
-
-	// 匹配类名和窗口标题
-	if (wcscmp(className, L"Chrome_WidgetWin_1") == 0 && wcscmp(windowTitle, L"QQ") == 0) {
-		targetWindow = hwnd; // 保存找到的窗口句柄
-		return FALSE;        // 停止枚举
-	}
-	return TRUE; // 继续枚举
-}
-
-// 获取窗口句柄函数
-HWND getWindowHandle() {
-	targetWindow = nullptr;
-	EnumWindows(EnumWindowsProc, 0);
-	if (!targetWindow) {
-		qDebug() << "未找到匹配的窗口";
-	}
-	return targetWindow;
-}
-
-// 主窗口实现
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	// 创建按钮
 	button = new QPushButton("启动修炼", this);
@@ -55,27 +25,45 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
 void MainWindow::onButtonClicked() {
 	if (timer->isActive()) {
+		// 如果定时器正在运行，停止并重置按钮文字
 		timer->stop();
 		button->setText("启动修炼");
 		qDebug() << "定时器已停止";
 	}
 	else {
-		timer->start(68000); // 每 68 秒触发一次
-		button->setText("停止修炼");
-		qDebug() << "定时器已启动";
+		// 弹出窗口选择对话框
+		SelectWindowDialog dlg(this);
+		if (dlg.exec() == QDialog::Accepted) {
+			// 用户点击“确定”，获取选中的窗口句柄
+			targetWindow = dlg.selectedHwnd();
+			if (targetWindow == nullptr) {
+				qDebug() << "未选择任何有效窗口，操作中断。";
+				return;
+			}
+
+			// 启动定时器
+			timer->start(68000); // 每 68 秒触发一次，这里需要略大于修炼时间一些，确保不会出现bug
+			button->setText("停止修炼");
+			qDebug() << "定时器已启动";
+
+			// 立即执行一次
+			simulateKeyPress();
+		}
+		else {
+			// 用户点了取消或关闭对话框，则不执行后续操作
+			qDebug() << "用户取消选择窗口，操作中断。";
+		}
 	}
 }
 
 void MainWindow::simulateKeyPress() {
-	// 获取目标窗口句柄
-	HWND hwnd = getWindowHandle();
-	if (!hwnd) {
-		qDebug() << "未找到目标窗口";
+	if (!targetWindow) {
+		qDebug() << "未设置目标窗口句柄，无法模拟按键。";
 		return;
 	}
 
 	// 将目标窗口设置为前台窗口
-	SetForegroundWindow(hwnd);
+	SetForegroundWindow(targetWindow);
 	Sleep(200); // 等待窗口切换完成
 
 	// 准备输入事件

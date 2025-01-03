@@ -120,6 +120,7 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SelectWindowDialog.cpp" />
     <QtRcc Include="Celestian.qrc" />
     <QtUic Include="Celestian.ui" />
     <QtMoc Include="Celestian.h" />
@@ -127,6 +128,9 @@
     <ClCompile Include="main.cpp" />
     <None Include="Celestian.ico" />
     <ResourceCompile Include="Celestian.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="SelectWindowDialog.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
