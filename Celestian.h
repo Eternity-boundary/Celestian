@@ -6,6 +6,8 @@
 #include <QTimer>
 #include <windows.h> // 用于 Windows API
 
+#define _CELESTIAN_DISABLED_WARNINGS C26813 C26495
+
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 

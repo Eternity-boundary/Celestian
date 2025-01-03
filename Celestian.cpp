@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <TlHelp32.h>
 #pragma warning(disable:_STL_DISABLED_WARNINGS)
+#pragma warning(disable:_CELESTIAN_DISABLED_WARNINGS)
 
 HWND targetWindow = nullptr; // 全局变量保存窗口句柄
 
