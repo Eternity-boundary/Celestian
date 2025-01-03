@@ -21,5 +21,4 @@ private:
 	QTimer* timer;
 };
 
-// 声明辅助函数
 HWND getWindowHandle();
