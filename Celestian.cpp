@@ -42,7 +42,7 @@ void MainWindow::onButtonClicked() {
 			}
 
 			// 启动定时器
-			timer->start(68000); // 每 68 秒触发一次，这里需要略大于修炼时间一些，确保不会出现bug
+			timer->start(PRACTICETIME); // 每 68 秒触发一次，这里需要略大于修炼时间一些，确保不会出现bug
 			button->setText("停止修炼");
 			qDebug() << "定时器已启动";
 

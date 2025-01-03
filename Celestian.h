@@ -7,6 +7,7 @@
 #include <windows.h>
 
 #define _CELESTIAN_DISABLED_WARNINGS C26813 C26495
+constexpr auto PRACTICETIME = 68000;
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
