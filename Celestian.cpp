@@ -59,7 +59,7 @@ void MainWindow::onButtonClicked() {
 		qDebug() << "定时器已停止";
 	}
 	else {
-		timer->start(68000); // 每 61 秒触发一次
+		timer->start(68000); // 每 68 秒触发一次
 		button->setText("停止修炼");
 		qDebug() << "定时器已启动";
 	}
