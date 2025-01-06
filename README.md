@@ -13,3 +13,9 @@
 
 虽然本程序采用的是模拟输入的方式，但仍然存在被封号的风险！
 
+## 赞助
+如果你喜欢我的项目可以在这里赞助
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/eternityboundary)
+
+
